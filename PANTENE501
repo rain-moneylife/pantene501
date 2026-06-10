@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パンテーン実質115円チェックシート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --gold-dark:#a8782e;
+  --gold-mid:#c9a04e;
+  --gold-light:#e8cf8f;
+  --gold-pale:#fbf6e9;
+  --gold-ultra:#fffdf6;
+  --accent-red:#e03a3a;
+  --accent-green:#27ae60;
+  --text-dark:#2a2418;
+  --text-mid:#6b5d42;
+  --text-light:#a8987a;
+  --border:#ebd9ad;
+  --white:#ffffff;
+  --shadow:0 2px 12px rgba(168,120,46,0.1);
+  --shadow-hover:0 6px 24px rgba(168,120,46,0.18);
+}
+
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  background:linear-gradient(135deg,#fffdf6 0%,#fbf6e9 50%,#f7eed8 100%);
+  min-height:100vh;
+  padding:16px;
+  color:var(--text-dark);
+}
+
+.page-header{
+  background:linear-gradient(135deg,#3a2f1a 0%,var(--gold-dark) 50%,var(--gold-mid) 100%);
+  border-radius:20px;
+  padding:24px 20px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 32px rgba(168,120,46,0.3);
+}
+.page-header::before{
+  content:'✨';
+  position:absolute;
+  top:-10px;right:10px;
+  font-size:80px;
+  opacity:0.15;
+}
+.page-header::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,transparent,var(--gold-light),transparent);
+}
+.header-badge{
+  display:inline-block;
+  background:var(--white);
+  color:var(--gold-dark);
+  font-size:11px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:20px;
+  margin-bottom:8px;
+  letter-spacing:0.05em;
+}
+.page-header h1{
+  color:var(--white);
+  font-size:20px;
+  font-weight:900;
+  line-height:1.3;
+  margin-bottom:6px;
+}
+.page-header p{
+  color:rgba(255,255,255,0.85);
+  font-size:12px;
+  line-height:1.5;
+}
+.total-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:12px;
+  padding:8px 14px;
+  margin-top:12px;
+  color:var(--white);
+  font-size:13px;
+  font-weight:700;
+}
+.total-badge span{
+  color:var(--gold-light);
+  font-size:18px;
+  font-weight:900;
+}
+
+.deadline-banner{
+  background:linear-gradient(135deg,var(--gold-mid),var(--gold-dark));
+  border-radius:14px;
+  padding:12px 16px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 4px 16px rgba(201,160,78,0.3);
+}
+.deadline-banner .icon{font-size:24px;}
+.deadline-banner .text{color:var(--white);}
+.deadline-banner .text strong{font-size:14px;font-weight:900;display:block;}
+.deadline-banner .text span{font-size:11px;opacity:0.95;}
+
+.progress-wrap{
+  background:var(--white);
+  border-radius:16px;
+  padding:16px 20px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:12px;
+  color:var(--text-mid);
+  font-weight:700;
+}
+.progress-label strong{color:var(--gold-dark);font-size:14px;}
+.progress-bar-bg{
+  background:var(--gold-pale);
+  border-radius:8px;
+  height:10px;
+  overflow:hidden;
+}
+.progress-bar-fill{
+  background:linear-gradient(90deg,var(--gold-light),var(--gold-mid));
+  height:100%;
+  border-radius:8px;
+  transition:width 0.5s ease;
+  width:0%;
+}
+
+.calc-card{
+  background:var(--white);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+  border-left:4px solid var(--gold-mid);
+}
+.calc-title{font-size:13px;font-weight:700;color:var(--gold-dark);margin-bottom:10px;}
+.calc-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 0;
+  border-bottom:1px solid var(--gold-pale);
+  font-size:12px;
+}
+.calc-row:last-child{border-bottom:none;}
+.calc-row .label{color:var(--text-mid);}
+.calc-row .val{font-weight:700;color:var(--gold-dark);}
+.calc-row .val.red{color:var(--accent-red);}
+.calc-row .val.green{color:var(--accent-green);}
+.calc-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+  padding:10px 12px;
+  background:var(--gold-pale);
+  border-radius:10px;
+}
+.calc-total .label{font-size:13px;font-weight:700;color:var(--gold-dark);}
+.calc-total .val{font-size:18px;font-weight:900;color:var(--accent-green);}
+
+.section{
+  background:var(--white);
+  border-radius:20px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+.section-header{
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  user-select:none;
+}
+.section-header-left{display:flex;align-items:center;gap:10px;}
+.section-icon{
+  width:36px;height:36px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.section-title{font-size:13px;font-weight:700;color:var(--gold-dark);line-height:1.3;}
+.section-amount{
+  font-size:11px;color:var(--gold-dark);font-weight:700;
+  background:var(--gold-light);padding:2px 8px;border-radius:10px;
+  margin-top:2px;display:inline-block;
+}
+.section-chevron{font-size:12px;color:var(--text-light);transition:transform 0.3s;flex-shrink:0;}
+.section.collapsed .section-chevron{transform:rotate(-90deg);}
+.section-body{padding:0 14px 14px;}
+.section.collapsed .section-body{display:none;}
+
+.check-item{
+  background:var(--gold-ultra);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:12px 14px;
+  margin-bottom:8px;
+  transition:all 0.2s;
+  cursor:pointer;
+}
+.check-item:hover{border-color:var(--gold-light);background:var(--gold-pale);}
+.check-item.done{background:#f0fff4;border-color:#a8ddb8;opacity:0.85;}
+
+.item-top{display:flex;align-items:flex-start;gap:10px;}
+.checkbox{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--gold-light);background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.2s;margin-top:1px;
+}
+.check-item.done .checkbox{background:var(--accent-green);border-color:var(--accent-green);}
+.checkbox::after{content:'✓';color:var(--white);font-size:13px;font-weight:900;display:none;}
+.check-item.done .checkbox::after{display:block;}
+
+.item-content{flex:1;min-width:0;}
+.item-label{font-size:13px;font-weight:700;color:var(--text-dark);line-height:1.4;margin-bottom:2px;}
+.check-item.done .item-label{text-decoration:line-through;color:var(--text-light);}
+.item-detail{font-size:11px;color:var(--text-mid);line-height:1.4;}
+
+.item-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.entry-badge{
+  background:var(--accent-red);color:var(--white);
+  font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap;
+}
+.amount-badge{
+  background:var(--gold-pale);color:var(--gold-dark);
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;
+  white-space:nowrap;border:1px solid var(--border);
+}
+.check-item.done .amount-badge{background:#e0f5e9;border-color:#a8ddb8;color:var(--accent-green);}
+
+.url-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--gold-mid);color:var(--white) !important;
+  font-size:10px;font-weight:700;padding:4px 10px;border-radius:8px;
+  text-decoration:none;margin-top:6px;transition:background 0.2s;white-space:nowrap;
+}
+.url-btn:hover{background:var(--gold-dark);}
+.url-btn::before{content:'🔗 ';}
+
+.section-memo{
+  background:var(--gold-ultra);border:1.5px dashed var(--border);
+  border-radius:12px;padding:12px;margin-top:4px;
+}
+.section-memo-label{font-size:11px;font-weight:700;color:var(--gold-mid);margin-bottom:6px;}
+.memo-textarea{
+  width:100%;background:var(--white);border:1.5px solid var(--border);
+  border-radius:10px;padding:8px 10px;font-size:12px;
+  font-family:'Noto Sans JP',sans-serif;color:var(--text-dark);
+  resize:vertical;min-height:56px;line-height:1.6;transition:border-color 0.2s;
+}
+.memo-textarea:focus{outline:none;border-color:var(--gold-light);box-shadow:0 0 0 3px rgba(232,207,143,0.25);}
+.memo-textarea::placeholder{color:var(--text-light);}
+
+.warning-box{
+  background:#fff5f5;border:1.5px solid #ffcdd2;
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+}
+.warning-title{color:var(--accent-red);font-size:13px;font-weight:700;margin-bottom:10px;}
+.warning-item{
+  display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;
+  font-size:12px;color:var(--text-dark);line-height:1.5;
+}
+.warning-item::before{content:'⚠️';flex-shrink:0;font-size:11px;}
+
+.tips-box{
+  background:var(--gold-pale);border:1.5px solid var(--border);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+}
+.tips-title{color:var(--gold-dark);font-size:13px;font-weight:700;margin-bottom:10px;}
+.tips-item{
+  display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;
+  font-size:12px;color:var(--text-dark);line-height:1.5;
+}
+.tips-item::before{content:'💡';flex-shrink:0;font-size:11px;}
+
+.dm-box{
+  background:var(--gold-pale);border:1.5px solid var(--border);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+}
+.dm-title{color:var(--gold-dark);font-size:13px;font-weight:700;margin-bottom:6px;}
+.dm-text{font-size:12px;color:var(--text-dark);line-height:1.6;}
+
+.reset-btn{
+  display:block;width:100%;padding:12px;background:var(--white);
+  border:2px solid var(--border);border-radius:14px;
+  font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;
+  color:var(--text-mid);cursor:pointer;transition:all 0.2s;text-align:center;margin-top:8px;
+}
+.reset-btn:hover{border-color:var(--accent-red);color:var(--accent-red);}
+.save-notice{text-align:center;font-size:11px;color:var(--text-light);padding:8px;}
+
+.other-posts-box{
+  background:linear-gradient(135deg,var(--gold-pale),var(--gold-ultra));
+  border:1.5px solid var(--border);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;
+}
+.other-posts-title{color:var(--gold-dark);font-size:13px;font-weight:700;margin-bottom:8px;}
+.other-posts-text{font-size:12px;color:var(--text-dark);line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-badge">6/20 ウエル活限定</div>
+  <h1>パンテーン<br>実質115円もらえる！</h1>
+  <p>むずかしい組み合わせなし◎<br>初めてのウエル活にもぴったり<br>チェックとメモはブラウザに自動保存されます</p>
+  <div class="total-badge">2,054円が <span>実質501円に！</span></div>
+</div>
+
+<div class="deadline-banner">
+  <div class="icon">📅</div>
+  <div class="text">
+    <strong>ウエル活は6/20限定！</strong>
+    <span>WAONPOINT1.5倍消費はこの日だけ🌟</span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>完了したステップ</span>
+    <strong id="progress-text">0 / 0</strong>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progress-bar"></div>
+  </div>
+</div>
+
+<div class="calc-card">
+  <div class="calc-title">💰 実質115円もらえる仕組み</div>
+  <div class="calc-row">
+    <span class="label">パンテーン詰替超特大×2個</span>
+    <span class="val">1,100円（税込）</span>
+  </div>
+  <div class="calc-row">
+    <span class="label">パンテーンチューブトリートメント180g</span>
+    <span class="val">954円（税込）</span>
+  </div>
+  <div class="calc-row">
+    <span class="label">合計購入金額</span>
+    <span class="val">2,054円</span>
+  </div>
+  <div class="calc-row">
+    <span class="label">①ウエル活 1.5倍消費</span>
+    <span class="val red">1,369pt消費</span>
+  </div>
+  <div class="calc-row">
+    <span class="label">②レシチャレ還元</span>
+    <span class="val green">−868円</span>
+  </div>
+  <div class="calc-total">
+    <span class="label">実質</span>
+    <span class="val" style="color:var(--accent-red);">501円で買える！</span>
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:var(--text-mid);text-align:center;">
+    ※公式では未確認だけど115円プラスになる裏技アリ→STEP4へ
+  </div>
+</div>
+
+<div class="section" id="sec-prep">
+  <div class="section-header" onclick="toggleSection('sec-prep')">
+    <div class="section-header-left">
+      <div class="section-icon" style="background:#fbf6e9;">📱</div>
+      <div>
+        <div class="section-title">STEP1. 前日6/19までにやること</div>
+        <div class="section-amount">事前準備</div>
+      </div>
+    </div>
+    <span class="section-chevron">▼</span>
+  </div>
+  <div class="section-body">
+    <div class="check-item" onclick="toggleCheck(this)" data-key="prep4">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">レシチャレに新規登録（まだの人）</div>
+          <div class="item-detail">新規登録で200円分ボーナスもらえる🎁</div>
+          <a class="url-btn" href="https://www.rewards.kurashiru.com/register?ref=9262ed3a-1631-43eb-999c-44e08fa434aa" target="_blank" onclick="event.stopPropagation()">レシチャレに登録（200円分GET） #PR</a>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">+200円</span>
+        </div>
+      </div>
+    </div>
+        <div class="check-item" onclick="toggleCheck(this)" data-key="prep1">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">ウエルシアアプリの設定を確認</div>
+          <div class="item-detail">WAONPOINTカードを登録し、アプリでバーコード提示できる状態にしておこう　店頭で即日発行も可</div>
+          <a class="url-btn" href="https://www.smartwaon.com/ext/001/wp_guide/welcia.html" target="_blank" onclick="event.stopPropagation()">WAONPOINT設定方法</a>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="prep1b">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">レシチャレアプリをダウンロード</div>
+          <div class="item-detail">まだの人はここから準備しておこう</div>
+          <a class="url-btn" href="https://about.rewards.kurashiru.com/" target="_blank" onclick="event.stopPropagation()">レシチャレをダウンロード</a>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="prep3">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">WAON POINTの残高を確認</div>
+          <div class="item-detail">1,369pt以上あればOK　足りない場合は番外編もチェックしてみてね</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-memo">
+      <div class="section-memo-label">📝 メモ</div>
+      <textarea class="memo-textarea" data-key="memo-prep" placeholder="広告確認日・ポイント残高など…"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="sec-buy">
+  <div class="section-header" onclick="toggleSection('sec-buy')">
+    <div class="section-header-left">
+      <div class="section-icon" style="background:#fff3e0;">🛒</div>
+      <div>
+        <div class="section-title">STEP2. 6/20ウエルシアで購入</div>
+        <div class="section-amount">合計2,054円</div>
+      </div>
+    </div>
+    <span class="section-chevron">▼</span>
+  </div>
+  <div class="section-body">
+    <div class="check-item" onclick="toggleCheck(this)" data-key="buy0">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">レシチャレアプリでパンテーン対象広告があるか確認</div>
+          <div class="item-detail">上限に達し次第終了！必ず購入前にチェックして</div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">868円</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="buy1">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">パンテーン詰替超特大を2個カゴに入れる</div>
+          <div class="item-detail">1個1,100円（税込）×2個</div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">1,100円×2</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="buy2">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">パンテーン チューブトリートメント180gを1個カゴに入れる</div>
+          <div class="item-detail">954円（税込）</div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">954円</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="buy3">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">ウエルシアアプリのWAON POINTを提示</div>
+          <div class="item-detail">レジで「WAON POINT払いで」と伝える　6/20限定で200pt＝300ptで1.5倍に！2,054円分→1,369ptの消費でOK</div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">1,369pt消費</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="buy4">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">レシートを必ず受け取る</div>
+          <div class="item-detail">P&G申請・レシチャレ申請の両方に必要！</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-memo">
+      <div class="section-memo-label">📝 メモ</div>
+      <textarea class="memo-textarea" data-key="memo-buy" placeholder="購入日・店舗名など…"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="sec-reci">
+  <div class="section-header" onclick="toggleSection('sec-reci')">
+    <div class="section-header-left">
+      <div class="section-icon" style="background:#e8f3fc;">📲</div>
+      <div>
+        <div class="section-title">STEP3. レシチャレ申請</div>
+        <div class="section-amount">868円還元</div>
+      </div>
+    </div>
+    <span class="section-chevron">▼</span>
+  </div>
+  <div class="section-body">
+    <div class="check-item" onclick="toggleCheck(this)" data-key="reci1">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">レシチャレでレシートをすぐ申請</div>
+          <div class="item-detail">広告は上限に達し次第終了！購入後はできるだけ早く申請しよう</div>
+          <a class="url-btn" href="https://about.rewards.kurashiru.com/" target="_blank" onclick="event.stopPropagation()">レシチャレで申請する</a>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">868円</span>
+        </div>
+      </div>
+    </div>
+    <div class="section-memo">
+      <div class="section-memo-label">📝 メモ</div>
+      <textarea class="memo-textarea" data-key="memo-reci" placeholder="申請日・承認状況など…"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="sec-pg">
+  <div class="section-header" onclick="toggleSection('sec-pg')">
+    <div class="section-header-left">
+      <div class="section-icon" style="background:#e8f7ee;">🧾</div>
+      <div>
+        <div class="section-title">STEP4. P&Gヘアケア30%還元 申請</div>
+        <div class="section-amount">616円還元</div>
+      </div>
+    </div>
+    <span class="section-chevron">▼</span>
+  </div>
+  <div class="section-body">
+    <div class="check-item" onclick="toggleCheck(this)" data-key="pg1">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">P&Gヘアケア用品購入レシートを申請</div>
+          <div class="item-detail">期間：2026/5/1〜6/30まで　1会計2,000円以上が条件　付与予定は10月中旬に登録したメールアドレスへ届きます</div>
+          <a class="url-btn" href="https://www.pgjapanbrands.com/tsuruhawelcia2605ptn?JC=app" target="_blank" onclick="event.stopPropagation()">申請ページを開く</a>
+          <div style="color:var(--accent-red);font-size:11px;font-weight:700;margin-top:8px;line-height:1.6;">
+            ⚠️公式で併用可否は確認できなかったためこちらは自己判断でお願いします<br>
+            私は過去の似たキャンペーンで両方付与されたことがありますが今回も付与される保証はありません
+          </div>
+          <div style="margin-top:10px;background:var(--gold-pale);border:1.5px dashed var(--border);border-radius:10px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">🎉 もし両方付与されたら…</div>
+            <div class="calc-row">
+              <span class="label">①ウエル活 1.5倍消費</span>
+              <span class="val red">1,369pt消費</span>
+            </div>
+            <div class="calc-row">
+              <span class="label">②P&Gヘアケア30%還元</span>
+              <span class="val green">+616円</span>
+            </div>
+            <div class="calc-row">
+              <span class="label">③レシチャレ還元</span>
+              <span class="val green">+868円</span>
+            </div>
+            <div class="calc-total" style="margin-top:8px;">
+              <span class="label">実質</span>
+              <span class="val">+115円もらえる！</span>
+            </div>
+          </div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">616円</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="pg2">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">付与上限を確認</div>
+          <div class="item-detail">上限850pt＝2,833円購入分まで対象　今回は2,054円なので全額対象◎</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-memo">
+      <div class="section-memo-label">📝 メモ</div>
+      <textarea class="memo-textarea" data-key="memo-pg" placeholder="申請日など…"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="sec-bangai">
+  <div class="section-header" onclick="toggleSection('sec-bangai')">
+    <div class="section-header-left">
+      <div class="section-icon" style="background:#fdeef2;">🎁</div>
+      <div>
+        <div class="section-title">番外編. ポイント増やしたい人へ</div>
+        <div class="section-amount">最大12,000円分</div>
+      </div>
+    </div>
+    <span class="section-chevron">▼</span>
+  </div>
+  <div class="section-body">
+    <div class="check-item" onclick="toggleCheck(this)" data-key="bangai1">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">TikTok新規登録で最大12,000円分のポイント</div>
+          <div class="item-detail">8,000pt→12,000円分にアップ中！※もらえるポイント数は変動あり　早めにやってね⚠️</div>
+          <a class="url-btn" href="https://www.tiktok.com/d/2/ZS92X5dWY9uFy-7hB2X/" target="_blank" onclick="event.stopPropagation()">TikTok招待リンク</a>
+          <div style="margin-top:10px;background:var(--gold-pale);border:1.5px dashed var(--border);border-radius:10px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">✅ 成功した手順</div>
+            <div style="font-size:11px;color:var(--text-dark);line-height:1.8;">
+              ①WiFiを切る<br>
+              ②上のリンクからTikTokをダウンロード<br>
+              　※ダウンロード後「開く」は押さない！<br>
+              　　これをやると失敗するから注意⚠️<br>
+              ③もう一度リンクから開く<br>
+              ④「招待を受けるためにログインが必要」<br>
+              　と出たら新規登録して完了🎉
+            </div>
+            <div style="font-size:11px;font-weight:700;color:var(--gold-dark);margin-top:10px;margin-bottom:6px;">⚠️ 注意点</div>
+            <div style="font-size:11px;color:var(--text-dark);line-height:1.8;">
+              ・TikTokは気まぐれなキャンペーン<br>
+              ・必ず成功するとは限らない<br>
+              ・年齢制限アリ　18歳以下は参加不可
+            </div>
+          </div>
+        </div>
+        <div class="item-right">
+          <span class="amount-badge">最大12,000円分</span>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="bangai2">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">ポイントをもらったらえらべるPayへ交換</div>
+          <div class="item-detail">TikTokで獲得したポイントをえらべるPayに交換しよう</div>
+        </div>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggleCheck(this)" data-key="bangai3">
+      <div class="item-top">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-label">えらべるPayからWAON POINTへ交換</div>
+          <div class="item-detail">交換すれば次回のウエル活資金にもなるよ◎</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-memo">
+      <div class="section-memo-label">📝 メモ</div>
+      <textarea class="memo-textarea" data-key="memo-bangai" placeholder="登録日・ポイント数など…"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="warning-box">
+  <div class="warning-title">⚠️ 絶対に忘れないで！</div>
+  <div class="warning-item">ウエル活の1.5倍消費は6/20限定！日付を間違えないで</div>
+  <div class="warning-item">レシチャレの広告は上限に達し次第終了。購入前に必ず広告があるか確認してね</div>
+  <div class="warning-item">P&Gヘアケア申請は1会計2,000円以上が条件。今回の2,054円ならOK！</div>
+</div>
+
+<div class="other-posts-box">
+  <div class="other-posts-title">📌 他のウエル活コンボもチェック</div>
+  <div class="other-posts-text">
+    先月も別商品でウエル活コンボを紹介してるよ！<br>
+    今月もこのあと別の商品で投稿予定📣<br><br>
+    「ウエル活ってよくわからない」という人は、プロフィールから他の投稿もチェックしてみてね😊
+  </div>
+</div>
+
+<div class="dm-box">
+  <div class="dm-title">💬 わからないことはDMへ</div>
+  <div class="dm-text">手順でわからないことがあればInstagramのDMで気軽に質問してください😊<br>rain.moneylife<br><a href="https://www.instagram.com/rain.moneylife/" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:var(--gold-mid);color:white;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;text-decoration:none;margin-top:8px;">📩 質問はここから</a></div>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">🔄 チェックをリセットする</button>
+<p class="save-notice">✅ チェック・メモはブラウザに自動保存されます<br>by rain.moneylife</p>
+
+<script>
+const STORAGE_KEY='pantene_checklist_v1';
+function getState(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');}catch{return{};}}
+function saveState(s){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s));}catch{}}
+
+function toggleSection(id){
+  const sec=document.getElementById(id);
+  sec.classList.toggle('collapsed');
+  const s=getState();
+  s['section_'+id]=sec.classList.contains('collapsed');
+  saveState(s);
+}
+
+function toggleCheck(el){
+  el.classList.toggle('done');
+  const s=getState();
+  s[el.dataset.key]=el.classList.contains('done');
+  saveState(s);
+  updateProgress();
+}
+
+function updateProgress(){
+  const all=document.querySelectorAll('.check-item');
+  const done=document.querySelectorAll('.check-item.done');
+  const pct=all.length>0?Math.round(done.length/all.length*100):0;
+  document.getElementById('progress-text').textContent=done.length+' / '+all.length;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+
+function resetAll(){
+  if(!confirm('チェックをすべてリセットしますか？\n（メモは残ります）'))return;
+  const s=getState();
+  document.querySelectorAll('.check-item').forEach(el=>{
+    el.classList.remove('done');
+    s[el.dataset.key]=false;
+  });
+  saveState(s);
+  updateProgress();
+}
+
+function restoreState(){
+  const s=getState();
+  document.querySelectorAll('.check-item').forEach(el=>{
+    if(s[el.dataset.key])el.classList.add('done');
+  });
+  document.querySelectorAll('.section').forEach(sec=>{
+    if(s['section_'+sec.id])sec.classList.add('collapsed');
+  });
+  document.querySelectorAll('.memo-textarea').forEach(el=>{
+    if(s[el.dataset.key])el.value=s[el.dataset.key];
+    el.addEventListener('input',()=>{const s=getState();s[el.dataset.key]=el.value;saveState(s);});
+    el.addEventListener('click',e=>e.stopPropagation());
+  });
+  updateProgress();
+}
+
+restoreState();
+</script>
+</body>
+</html>
